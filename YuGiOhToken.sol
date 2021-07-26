@@ -753,7 +753,7 @@ contract YuGiOhToken is Context, IERC20, Ownable {
         _rOwned[_msgSender()] = _rTotal;
         
          // 0x10ED43C718714eb63d5aA57B78B54704E256024E is the PCSv2 Router address
-        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3);
+        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E256024E);
          // Create a uniswap pair for this new token
         uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
             .createPair(address(this), _uniswapV2Router.WETH());
@@ -824,7 +824,7 @@ contract YuGiOhToken is Context, IERC20, Ownable {
     }
     
     function _transferBothExcluded(address sender, address recipient, uint256 tAmount) private {
-        (uint256 rAmount, uint256 rTransferAmount, uint256 tTransferAmount, uint256 tOtherFees) = _getValues(tAmount);
+        (uint256 rAmount, uint256 rTransferAmount, uint256 tTransferAmount) = _getValues(tAmount);
         _tOwned[sender] = _tOwned[sender].sub(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _tOwned[recipient] = _tOwned[recipient].add(tTransferAmount);
@@ -863,10 +863,10 @@ contract YuGiOhToken is Context, IERC20, Ownable {
         _tFeeTotal = _tFeeTotal.add(tFee);
     }
 
-    function _getValues(uint256 tAmount) private returns (uint256, uint256, uint256, uint256) {
+    function _getValues(uint256 tAmount) private returns (uint256, uint256, uint256) {
         (uint256 tTransferAmount, uint256 tOtherFees) = _getTValues(tAmount);
         (uint256 rAmount, uint256 rTransferAmount) = _getRValues(tAmount, tOtherFees, _getRate());
-        return (rAmount, rTransferAmount, tTransferAmount, tOtherFees);
+        return (rAmount, rTransferAmount, tTransferAmount);
     }
 
     function _getTValues(uint256 tAmount) private returns (uint256, uint256) {
@@ -1082,14 +1082,14 @@ contract YuGiOhToken is Context, IERC20, Ownable {
     }
 
     function _transferStandard(address sender, address recipient, uint256 tAmount) private {
-        (uint256 rAmount, uint256 rTransferAmount, uint256 tTransferAmount, uint256 tOtherFees) = _getValues(tAmount);
+        (uint256 rAmount, uint256 rTransferAmount, uint256 tTransferAmount) = _getValues(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
         emit Transfer(sender, recipient, tTransferAmount);
     }
 
     function _transferToExcluded(address sender, address recipient, uint256 tAmount) private {
-        (uint256 rAmount, uint256 rTransferAmount, uint256 tTransferAmount, uint256 tOtherFees) = _getValues(tAmount);
+        (uint256 rAmount, uint256 rTransferAmount, uint256 tTransferAmount) = _getValues(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _tOwned[recipient] = _tOwned[recipient].add(tTransferAmount);
         _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
@@ -1097,7 +1097,7 @@ contract YuGiOhToken is Context, IERC20, Ownable {
     }
 
     function _transferFromExcluded(address sender, address recipient, uint256 tAmount) private {
-        (uint256 rAmount, uint256 rTransferAmount, uint256 tTransferAmount, uint256 tOtherFees) = _getValues(tAmount);
+        (uint256 rAmount, uint256 rTransferAmount, uint256 tTransferAmount) = _getValues(tAmount);
         _tOwned[sender] = _tOwned[sender].sub(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
