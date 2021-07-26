@@ -707,7 +707,7 @@ contract YuGiOhToken is Context, IERC20, Ownable {
     address[] private _excluded;
    
     uint256 private constant MAX = ~uint256(0);
-    uint256 private _tTotal = 1 * 10**9 * 10**9;
+    uint256 private _tTotal = 1999 * 10**8 * 10**9;
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
     uint256 private _tFeeTotal;
 
@@ -732,8 +732,8 @@ contract YuGiOhToken is Context, IERC20, Ownable {
     bool inSwapAndLiquify;
     bool public swapAndLiquifyEnabled = true;
     
-    uint256 public _maxTxAmount = 1 * 10**7 * 10**9;
-    uint256 private numTokensSellToAddToLiquidity = 1 * 10**5 * 10**9;
+    uint256 public _maxTxAmount = 19 * 10**8 * 10**9;
+    uint256 private numTokensSellToAddToLiquidity = 199000000 * 10**9;
     
     event MinTokensBeforeSwapUpdated(uint256 minTokensBeforeSwap);
     event SwapAndLiquifyEnabledUpdated(bool enabled);
@@ -753,7 +753,7 @@ contract YuGiOhToken is Context, IERC20, Ownable {
         _rOwned[_msgSender()] = _rTotal;
         
          // 0x10ED43C718714eb63d5aA57B78B54704E256024E is the PCSv2 Router address
-        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E256024E);
+        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3);
          // Create a uniswap pair for this new token
         uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
             .createPair(address(this), _uniswapV2Router.WETH());
